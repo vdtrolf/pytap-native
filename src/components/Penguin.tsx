@@ -124,7 +124,7 @@ const Penguin = ({penguinObj, squareSize}: PenguinProps)  => {
           image = penguinObj.gender ==="f"? filling_f[penguinObj.fillDirection]: filling_m[penguinObj.fillDirection];
         }
         
-        setPenguin({key: penguinObj.id, alive:penguinObj.alive, img:image,leftFrom:penguin.leftTo,leftTo:penguinObj.lpos*squareSize, topFrom:penguin.topTo, topTo:penguinObj.hpos*squareSize,});
+        setPenguin({key: penguinObj.key, alive:penguinObj.alive, img:image,leftFrom:penguin.leftTo,leftTo:penguinObj.lpos*squareSize, topFrom:penguin.topTo, topTo:penguinObj.hpos*squareSize,});
     },[penguinObj])    
    
     // if (penguin.alive) {

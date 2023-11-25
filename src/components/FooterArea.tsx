@@ -7,12 +7,12 @@ import { Colors } from "react-native/Libraries/NewAppScreen";
 interface FooterAreaProps {
     runningState : number; 
     island : any; 
-    squareSize : number;
+    unitSize : number;
 }
 
 export default function FooterArea(props : FooterAreaProps) : JSX.Element {
 
-  const {runningState, island, squareSize} = props;
+  const {runningState, island, unitSize} = props;
   
   const NOT_STARTED = 0;
   const ENDED = 3;
@@ -22,7 +22,7 @@ export default function FooterArea(props : FooterAreaProps) : JSX.Element {
     return (
       
         <ScrollView >
-           {island.penguins && island.penguins.map((penguin:any) =><PenguinLine key={penguin.id + 10000000} penguinObj={penguin} squareSize={squareSize} />)} 
+           {island.penguins && island.penguins.map((penguin:any) =><PenguinLine key={penguin.key} penguinObj={penguin} unitSize={unitSize} />)} 
         </ScrollView>
 
     )

@@ -49,7 +49,7 @@ const Mover= ({ children, duration, leftFrom, leftTo, topFrom, topTo}: AnimatePr
   // }
 
   return (
-    <Animated.View style={{transform: [{ translateX: leftPosition }, { translateY: topPosition }]}}>{children}</Animated.View>
+    <Animated.View style={{transform: [{ translateX: leftPosition }, { translateY: topPosition }], zIndex : 80}}>{children}</Animated.View>
   )
 
 };

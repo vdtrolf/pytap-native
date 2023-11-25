@@ -15,12 +15,12 @@ export enum Direction {
 }
 
 export interface FishData {
-  id: number;
-  lpos:number; 
+  key: number;
+  vpos:number; 
   hpos:number; 
   onHook:boolean; 
   staying: boolean;
-  fishDirection: number;
+  direction: number;
 }
 
 export interface TileInputData {
@@ -39,10 +39,9 @@ export interface TileInputData {
 export interface TileData {
   key: number;
   type: number;
-  num: number;
-  ta: string;
-  line: number;
-  col:number;
+  angle: string;
+  vpos: number;
+  hpos:number;
 }
 
 export interface ArtifactData {
@@ -54,7 +53,7 @@ export interface ArtifactData {
 }
 
 export interface PenguinData {
-  id: number;
+  key: number;
   alive: boolean; 
   name: string; 
   lpos:number; 
@@ -62,8 +61,8 @@ export interface PenguinData {
   hasIce:boolean; 
   gender: string; 
   activity: number; 
-  hungry:number; 
-  wealth:number; 
+  hunger:number; 
+  temp:number; 
   fat:number; 
   age:number; 
   genderName: string;  
@@ -87,8 +86,8 @@ export interface PenguinData {
 }
 
 export interface GarbageData {
-  id: number;
-  lpos:number;
+  key: number;
+  vpos:number;
   hpos:number;
   kind:number;
 }
@@ -96,5 +95,24 @@ export interface GarbageData {
 export interface UrlData {
   name: string;
   url: string;
+}
+
+export interface IslandData { 
+  id : number;
+  name: string;
+  size: number;
+  points: number;
+  year: number;
+  weather: number; 
+  plasticControl: boolean;
+  evolutionSpeed : number;
+  running: boolean;
+  // tiles: tiles,
+  //           artifacts: artifacts,
+  //           penguins: penguins,
+  //           fishes: fishes,
+  //           gems: gems,
+  //           garbages: garbages,
+  //           islands: islands
 }
 

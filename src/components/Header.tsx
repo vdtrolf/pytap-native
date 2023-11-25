@@ -1,116 +1,79 @@
 import { TouchableOpacity, StyleSheet, View, Image, Text } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 
-const tilesImages = {
-  STILE : require("../images/tile-s.png"),
-  SFOOD : require("../images/food-s.png"),
-  THERM_0 : require("../images/therm-0.png"),
-  THERM_1 : require("../images/therm-1.png"),
-  THERM_2 : require("../images/therm-2.png"),
-  THERM_3 : require("../images/therm-3.png"),
+import * as constants from "./Constants"
 
-  OTHERM_0 : require("../images/otherm-0.png"),
-  OTHERM_1 : require("../images/otherm-1.png"),
-  OTHERM_2 : require("../images/otherm-2.png"),
-  OTHERM_3 : require("../images/otherm-3.png"),
+const tilesImages = {
+  SPEED_1 : require("../images/speedo-1.png"),
+  SPEED_2 : require("../images/speedo-2.png"),
+  SPEED_3 : require("../images/speedo-3.png"),
+  SPEED_4 : require("../images/speedo-4.png"),
+  SPEED_5 : require("../images/speedo-5.png"),
 }
 
-const NOT_STARTED = 0;
-const RUNNING = 1;
-const PAUSED = 2;
-const ENDED = 3;
-
-const ICON_SIZE = 24;
-
+const ICON_SIZE = 36;
 
 interface HeaderProps {
-  onStartButton: () => void;
-  onReloadButton: () => void;
+  onCreateButton: () => void;
+  onOnceButton: () => void;
   onCloneButton: () => void;
-  onStepsButton: () => void;
+  onStopButton: () => void;
+  onPlusButton: () => void;
   onAdminButton: () => void;
   island : any; 
   admin: boolean;
+  unitSize : number;
   runningState: number;
-  squareSize: number;
-  pulser: boolean;
 }
 
 export default function Header({
-  onStartButton,
-  onReloadButton,
+  onCreateButton,
+  onOnceButton,
   onCloneButton,
-  onStepsButton,
+  onStopButton,
+  onPlusButton,
   onAdminButton,
   island,
   admin,
+  unitSize,
   runningState,
-  squareSize,
-  pulser
 }: HeaderProps): JSX.Element {
 
-
-  const therm = [tilesImages.THERM_0,tilesImages.THERM_1,tilesImages.THERM_2,tilesImages.THERM_3,tilesImages.THERM_3]
-  const otherm = [tilesImages.OTHERM_0,tilesImages.OTHERM_1,tilesImages.OTHERM_2,tilesImages.OTHERM_3,tilesImages.OTHERM_3]
-
-  var tilesLine =[];
-  var foodLine =[];
-  let temp  =""
-  let oceanTemp = "";
-  let tempFactor = 0;
-  let oceanFactor =0;
-
-  const ICON_SIZE = Math.floor(squareSize / 1.5);
-  const IMG_SIZE = Math.floor(squareSize / 3);
-  const FONT_SIZE = Math.floor(squareSize / 3);
-
-  if (island) {
-    if (runningState !== NOT_STARTED) {
-      temp = island.temperature ? Math.round(island.temperature * 10) / 10 + " °C":"0.4 °C"
-      oceanTemp = island.oceanTemperature ? Math.round(island.oceanTemperature * 10) / 10 + " °C":"20.3 °C"
-    }
-    tempFactor = Math.floor((island.temperature - 0.4) * 10 /4); 
-    oceanFactor = Math.floor((island.oceanTemperature - 20.3) * 10 /4);
-      
-    for (let i=0;i <island.tilesCount && i < 6 ;i++) tilesLine.push(<Image key={i+100} source={tilesImages.STILE} style={{width : IMG_SIZE,  height :IMG_SIZE}} />)
-    for (let i=0;i <island.foodCount && i < 6 ;i++) foodLine.push(<Image key={i+200} source={tilesImages.SFOOD} style={{width : IMG_SIZE,  height :IMG_SIZE}} />)
-  }
+  const ICON_SIZE = Math.floor(unitSize);
+  const fontNameHeight = Math.floor(unitSize / 2)
+  const fontPtsHeight = Math.floor(unitSize / 3 )
 
   return (
     <View style={styles.container}>
       <View style={{flex:5}} />   
 
-      <View  style={styles.list} >
-          <View style={styles.line}>{tilesLine}</View>
-          <View style={styles.line}>{foodLine}</View>
-      </View>
-      
-      <View  style={styles.list} >
-          <View style={styles.line}><Image source={therm[tempFactor]} style={{width:FONT_SIZE, height:FONT_SIZE}} ></Image><Text style={{fontSize : FONT_SIZE, color: "white"}} >{temp}</Text></View>
-          <View style={styles.line}><Image source={otherm[oceanFactor]} style={{width:FONT_SIZE, height:FONT_SIZE}} ></Image><Text style={{fontSize : FONT_SIZE, color:"white"}}>{oceanTemp}</Text></View> 
-      </View>  
+      {island.name && 
+          <View style={{flex:8}}>
+            <Text style={[{ top: 0, left: 0, fontSize: fontNameHeight}, styles.name]}>{island.name}</Text>
+            <Text style={[{ top: Math.floor(unitSize * 0.75), fontSize: fontPtsHeight, left: 0}, styles.name]}>{Math.round(island.year)}</Text>
+          </View>
+      }
 
       <View style={styles.buttons}>       
         
-        <TouchableOpacity onPress={onStartButton}>
+        <TouchableOpacity onPress={onCreateButton}>
           <Ionicons
-            name={runningState !== RUNNING ? "play-circle-outline" : "pause-circle-outline"}
+            name={runningState !== constants.RUNNING ? "play-circle-outline" : "pause-circle-outline"}
             size={ICON_SIZE}
             color={"white"}
           />
         </TouchableOpacity>
 
-        <TouchableOpacity onPress={onReloadButton}>
+        <TouchableOpacity onPress={onPlusButton}>
           <Ionicons name="reload-circle" size={ICON_SIZE} color={"white"} />
         </TouchableOpacity>
-
 
         <TouchableOpacity onPress={onCloneButton}>
           <Ionicons name="list-circle-outline" size={ICON_SIZE} color={"white"} />
         </TouchableOpacity>
 
-        <TouchableOpacity onPress={onStepsButton}>
-          <Ionicons name="ellipsis-horizontal-circle-outline" size={ICON_SIZE} color={pulser?"red":"white"} />
+        <TouchableOpacity onPress={onCloneButton}>
+          <Ionicons name="ellipsis-horizontal-circle-outline" size={ICON_SIZE} color={"white"} />
         </TouchableOpacity>
 
         <TouchableOpacity onPress={onAdminButton}>
@@ -130,7 +93,7 @@ const styles = StyleSheet.create({
     fontFamily : "Arial",
   },
   buttons: {
-    flex: 5,
+    flex: 4,
     flexDirection: "row",
     alignItems: "flex-end",
     justifyContent: "space-between",
@@ -145,5 +108,13 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignContent : "flex-start",
     padding: 2,
+  },
+  name: {
+    borderRadius: 0,
+    position: "absolute",
+    color: "white",
+    fontFamily : "Arial",
+    fontWeight: "bold",
+    zIndex : 70
   }
 });

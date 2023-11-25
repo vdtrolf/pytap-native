@@ -1,6 +1,6 @@
 import { StyleSheet, Image, Text} from "react-native";
 import { GarbageData } from "../types/types";
-import React, {useState,useEffect,Fragment} from "react";
+import React, {useState,useEffect} from "react";
 
 const garbImages = {
     ART_EMPTY : require("../images/empty.png"),
@@ -12,6 +12,7 @@ const garbImages = {
 }    
 
 export interface Igarbage {
+    key : number;
     top : number;
     left :number; 
     img : any; 
@@ -24,21 +25,19 @@ interface GarbageProps {
 
 const Garbage = ({garbageObj,squareSize}: GarbageProps)  => {
 
-    const [garbage,setGarbage] = useState<Igarbage>({top:0,left:0,img:garbImages.ART_EMPTY}); // ({});  
+    const [garbage,setGarbage] = useState<Igarbage>({key:0, top:0,left:0,img:garbImages.ART_EMPTY}); // ({});  
     const garbageImg : any[] = [garbImages.GARB_1,garbImages.GARB_2,garbImages.GARB_3,garbImages.GARB_4,garbImages.GARB_5 ]
     
 
     useEffect(() => {
-        setGarbage({img: garbageImg[garbageObj.kind], left:garbageObj.lpos * squareSize,top:garbageObj.hpos*squareSize});
+        setGarbage({img: garbageImg[garbageObj.kind], key:garbageObj.key, left:garbageObj.vpos * squareSize,top:garbageObj.hpos*squareSize});
    
     },[garbageObj])              
      
   
     return ( 
-            //<Fragment>
-                <Image source={garbage.img} style={[{ top: garbage.top, left: garbage.left, width: squareSize, height: squareSize, }, styles.garbage]} ></Image> 
-            //</Fragment>
-          );
+        <Image  key={garbage.key} source={garbage.img} style={[{ top: garbage.top, left: garbage.left, width: squareSize, height: squareSize, }, styles.garbage]} ></Image> 
+    );
 
 }
 

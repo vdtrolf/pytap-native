@@ -32,10 +32,10 @@ export interface Ipenguin {
 
 interface PenguinProps {
     penguinObj: PenguinData;
-    squareSize : number;
+    unitSize : number;
 }
 
-const PenguinLine = ({penguinObj, squareSize}: PenguinProps)  => {
+const PenguinLine = ({penguinObj, unitSize}: PenguinProps)  => {
 
     const [penguin,setPenguin] = useState<Ipenguin>({id:0, alive: true, name:'',genderName:'',age:0,fat:0,activity:0,strategyShort:'', img1:healthImages.HEALTH_0, img2:healthImages.HUNGER_0,}); 
     const healthImg : any[] = [healthImages.HEALTH_0,healthImages.HEALTH_1,healthImages.HEALTH_2,healthImages.HEALTH_3,healthImages.HEALTH_4,healthImages.HEALTH_5]
@@ -45,7 +45,7 @@ const PenguinLine = ({penguinObj, squareSize}: PenguinProps)  => {
     
     useEffect(() => {
 
-        setPenguin({id:penguinObj.id,
+        setPenguin({id:penguinObj.key,
                     alive:penguinObj.alive,
                     name:penguinObj.name,
                     genderName :penguinObj.genderName,
@@ -53,20 +53,20 @@ const PenguinLine = ({penguinObj, squareSize}: PenguinProps)  => {
                     fat : penguinObj.fat, 
                     activity : penguinObj.activity, 
                     strategyShort: penguinObj.strategyShort,
-                    img1:healthImg[Math.floor(penguinObj.wealth/20)],
-                    img2:hungerImg[Math.floor(penguinObj.hungry/20)],});
+                    img1:healthImg[Math.floor(penguinObj.temp/20)],
+                    img2:hungerImg[Math.floor(penguinObj.hunger/20)],});
     },[penguinObj])   
 
-    const lineHeight = Math.floor(squareSize *3 / 4)
-    const fontHeight = Math.floor(squareSize / 2.5 )
+    const lineHeight = Math.floor(unitSize *3 / 4)
+    const fontHeight = Math.floor(unitSize / 2.5 )
 
 
     if (penguin.alive) {
         return ( 
             <View style={[{height: lineHeight  }, styles.line]} >
                 <View  style={[{flex:2},styles.list]} >
-                    <Image source={penguin.img1} style={[{width: squareSize * 1.8, height: squareSize /5, paddingTop: squareSize / 8},styles.health]} ></Image> 
-                    <Image source={penguin.img2} style={[{width: squareSize * 1.8, height: squareSize /5, paddingBottom: squareSize / 8 },styles.health]} ></Image> 
+                    <Image source={penguin.img1} style={[{width: unitSize * 1.8, height: unitSize /5, paddingTop: unitSize / 8},styles.health]} ></Image> 
+                    <Image source={penguin.img2} style={[{width: unitSize * 1.8, height: unitSize /5, paddingBottom: unitSize / 8 },styles.health]} ></Image> 
                 </View> 
                 <Text style={[{flex:2, fontSize: fontHeight}, styles.lineText]}> {penguin.name}</Text>
                 <Text style={[{flex:2, fontSize: fontHeight}, styles.lineText]}>({penguin.genderName}/{Math.floor(penguin.age)}/{shapes[penguin.fat]})</Text>
