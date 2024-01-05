@@ -111,7 +111,6 @@ const styles = StyleSheet.create({
   },
   name: {
     borderRadius: 0,
-    position: "absolute",
     color: "white",
     fontFamily : "Arial",
     fontWeight: "bold",

@@ -21,9 +21,9 @@ export default function FooterArea(props : FooterAreaProps) : JSX.Element {
   if (runningState !== NOT_STARTED) {
     return (
       
-        <ScrollView >
-           {island.penguins && island.penguins.map((penguin:any) =><PenguinLine key={penguin.key} penguinObj={penguin} unitSize={unitSize} />)} 
-        </ScrollView>
+        <View>
+          {island.penguins && island.penguins.map((penguin:any) =><PenguinLine key={penguin.key + 170000000} penguinObj={penguin} unitSize={unitSize} />)} 
+    </View>
 
     )
   }  else {

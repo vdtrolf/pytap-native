@@ -23,9 +23,8 @@ export interface Ipenguin {
     name : string;
     genderName :string; 
     age :number; 
-    fat :number; 
+    shape :number; 
     activity :number; 
-    strategyShort: string;
     img1: any;
     img2: any;
 }
@@ -37,7 +36,7 @@ interface PenguinProps {
 
 const PenguinLine = ({penguinObj, unitSize}: PenguinProps)  => {
 
-    const [penguin,setPenguin] = useState<Ipenguin>({id:0, alive: true, name:'',genderName:'',age:0,fat:0,activity:0,strategyShort:'', img1:healthImages.HEALTH_0, img2:healthImages.HUNGER_0,}); 
+    const [penguin,setPenguin] = useState<Ipenguin>({id:0, alive: true, name:'',genderName:'',age:0,shape:0,activity:0, img1:healthImages.HEALTH_0, img2:healthImages.HUNGER_0,}); 
     const healthImg : any[] = [healthImages.HEALTH_0,healthImages.HEALTH_1,healthImages.HEALTH_2,healthImages.HEALTH_3,healthImages.HEALTH_4,healthImages.HEALTH_5]
     const hungerImg : any[] = [healthImages.HUNGER_0,healthImages.HUNGER_1,healthImages.HUNGER_2,healthImages.HUNGER_3,healthImages.HUNGER_4,healthImages.HUNGER_5]
     const shapes = ["","Fat","Fit","Slim","Lean"]
@@ -50,9 +49,8 @@ const PenguinLine = ({penguinObj, unitSize}: PenguinProps)  => {
                     name:penguinObj.name,
                     genderName :penguinObj.genderName,
                     age : penguinObj.age,
-                    fat : penguinObj.fat, 
+                    shape : penguinObj.shape, 
                     activity : penguinObj.activity, 
-                    strategyShort: penguinObj.strategyShort,
                     img1:healthImg[Math.floor(penguinObj.temp/20)],
                     img2:hungerImg[Math.floor(penguinObj.hunger/20)],});
     },[penguinObj])   
@@ -69,8 +67,8 @@ const PenguinLine = ({penguinObj, unitSize}: PenguinProps)  => {
                     <Image source={penguin.img2} style={[{width: unitSize * 1.8, height: unitSize /5, paddingBottom: unitSize / 8 },styles.health]} ></Image> 
                 </View> 
                 <Text style={[{flex:2, fontSize: fontHeight}, styles.lineText]}> {penguin.name}</Text>
-                <Text style={[{flex:2, fontSize: fontHeight}, styles.lineText]}>({penguin.genderName}/{Math.floor(penguin.age)}/{shapes[penguin.fat]})</Text>
-                <Text style={[{flex:2, fontSize: fontHeight}, styles.lineText]}>{penguin.activity > 0? activities[penguin.activity]:penguin.strategyShort} </Text>
+                <Text style={[{flex:2, fontSize: fontHeight}, styles.lineText]}>({penguin.genderName}/{Math.floor(penguin.age)}/{shapes[penguin.shape]})</Text>
+                <Text style={[{flex:2, fontSize: fontHeight}, styles.lineText]}>{penguin.activity > 0? activities[penguin.activity]:""} </Text>
             </View>
         );
     } else {

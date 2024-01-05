@@ -1,4 +1,4 @@
-import { StyleSheet, Image, Text} from "react-native";
+import { StyleSheet, Image, Pressable} from "react-native";
 import { GarbageData } from "../types/types";
 import React, {useState,useEffect} from "react";
 
@@ -21,9 +21,10 @@ export interface Igarbage {
 interface GarbageProps {
     garbageObj: GarbageData;
     squareSize: number;
+    handleGarbageClick : any;
 }
 
-const Garbage = ({garbageObj,squareSize}: GarbageProps)  => {
+const Garbage = ({garbageObj,squareSize, handleGarbageClick}: GarbageProps)  => {
 
     const [garbage,setGarbage] = useState<Igarbage>({key:0, top:0,left:0,img:garbImages.ART_EMPTY}); // ({});  
     const garbageImg : any[] = [garbImages.GARB_1,garbImages.GARB_2,garbImages.GARB_3,garbImages.GARB_4,garbImages.GARB_5 ]
@@ -34,11 +35,15 @@ const Garbage = ({garbageObj,squareSize}: GarbageProps)  => {
    
     },[garbageObj])              
      
+    const handleClick = (key:number) => {
+        handleGarbageClick(key)
+    }    
   
     return ( 
-        <Image  key={garbage.key} source={garbage.img} style={[{ top: garbage.top, left: garbage.left, width: squareSize, height: squareSize, }, styles.garbage]} ></Image> 
+        <Pressable style={{zIndex : 46}} onPress={() => handleClick(garbage.key)} > 
+            <Image  key={garbage.key} source={garbage.img} style={[{ top: garbage.top, left: garbage.left, width: squareSize, height: squareSize, }, styles.garbage]} ></Image> 
+        </Pressable>
     );
-
 }
 
 const styles = StyleSheet.create({

@@ -1,6 +1,6 @@
-import { StyleSheet, Image, Text} from "react-native";
+import { StyleSheet, Image, Pressable} from "react-native";
 import { TileData }  from "../types/types";
-import React, {useState,useEffect,Fragment} from "react";
+import React, {useState,useEffect} from "react";
 
 const tileImages = {
     TILE_0_A : require("../images/tile-sea.png"),
@@ -41,6 +41,8 @@ const tileImages = {
 
 export interface Itile {
     key : number;
+    vpos: number,
+    hpos: number,
     top : number;
     left :number; 
     img : any; 
@@ -49,12 +51,15 @@ export interface Itile {
 interface TileProps {
     tileObj: TileData;
     squareSize: number;
+    handleTileClick : any;
 }
 
-// function Snake({ snake }: SnakeProps): JSX.Element {
-const Tile = ({tileObj,squareSize}: TileProps)  => {
 
-    const [tile,setTile] = useState<Itile>({key:0, top:0,left:0,img:tileImages.TILE_EMPTY}); // ({});  
+
+// function Snake({ snake }: SnakeProps): JSX.Element {
+const Tile = ({tileObj,squareSize,handleTileClick}: TileProps)  => {
+
+    const [tile,setTile] = useState<Itile>({key:0, vpos:0, hpos:0, top:0,left:0,img:tileImages.TILE_EMPTY}); // ({});  
     
     const tiles : any[] = [tileImages.TILE_15_A,tileImages.TILE_15_B,
       tileImages.TILE_14_A,tileImages.TILE_14_B,
@@ -92,20 +97,26 @@ const Tile = ({tileObj,squareSize}: TileProps)  => {
               tileImg = tileImages.TILE_EARTH;
           }
           
-          setTile({key: tileObj.key, top:tileObj.vpos * squareSize,left :tileObj.hpos * squareSize,img:tileImg});
-     },[tileObj])              
+          setTile({key: tileObj.key, vpos:tileObj.vpos, hpos:tileObj.hpos ,top:tileObj.vpos * squareSize,left :tileObj.hpos * squareSize,img:tileImg});
+     },[tileObj])   
+     
+     const handleClick = (vpos:number,hpos:number) => {
+        handleTileClick(vpos,hpos)
+      }
   
     //  const handleClick = () => {
     //     onTileClick(tile.line,tile.col);
     //  }
 
      return ( 
-        // <Fragment >
+        <Pressable style={{zIndex : 21}} onPress={() => handleClick(tile.vpos,tile.hpos)} > 
             <Image key={tile.key} source={tile.img} style={[{ top: tile.top, left: tile.left, width: squareSize, height: squareSize }, styles.tile]} ></Image> 
-        // </Fragment>
+        </Pressable>
       );
 
 }
+
+
 
 const styles = StyleSheet.create({
     tile: {

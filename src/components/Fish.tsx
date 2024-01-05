@@ -1,4 +1,4 @@
-import { StyleSheet, Animated, Easing, Image } from "react-native";
+import { StyleSheet, Pressable, Image } from "react-native";
 import { FishData } from "../types/types";
 import React, {useState,useEffect,Fragment, Children} from "react";
 import Mover from "./Mover";
@@ -29,9 +29,10 @@ export interface Ifish {
 interface FishProps {
     fishObj: FishData;
     squareSize: number;
+    handleFishClick : any;
 }
 
-const Fish = ({fishObj, squareSize}: FishProps)  => {
+const Fish = ({fishObj, squareSize, handleFishClick}: FishProps)  => {
 
     const [fish,setFish] = useState<Ifish>({key:0,leftFrom:0,leftTo:0,topFrom:0,topTo:0,img:fishImages.FISH_1_MOVING});     
     const movingImg : any[] = [fishImages.FISH_STAYING,fishImages.FISH_1_MOVING,fishImages.FISH_2_MOVING,fishImages.FISH_3_MOVING,fishImages.FISH_4_MOVING ]
@@ -56,7 +57,11 @@ const Fish = ({fishObj, squareSize}: FishProps)  => {
 
         setFish({key:fishObj.key, leftFrom:fish.leftTo,leftTo:fishObj.hpos*squareSize, topFrom:fish.topTo, topTo:fishObj.vpos*squareSize, img:image});
 
-    },[fishObj])    
+    },[fishObj])  
+    
+    const handleClick = (key:number) => {
+      handleFishClick(key)
+    }    
   
    if ((fish.leftFrom !==  fish.leftTo || fish.topFrom !==  fish.topTo) && (fish.leftFrom !==0 || fish.topFrom !== 0)) {
       return (          
@@ -66,11 +71,13 @@ const Fish = ({fishObj, squareSize}: FishProps)  => {
       )
     } else {
       return (
-        <Image key={fish.key} source={fish.img} 
+        <Pressable style={{zIndex : 44}} onPress={() => handleClick(fish.key)} > 
+          <Image key={fish.key + 7000000000} source={fish.img} 
                style={[{ top: fish.topTo, 
                left: fish.leftTo, 
                width: squareSize, 
                height: squareSize, }, styles.fish]} /> 
+            </Pressable>
           );
       }
 }

@@ -52,37 +52,35 @@ export interface ArtifactData {
   col: number;
 }
 
+
+
+
+
 export interface PenguinData {
   key: number;
   alive: boolean; 
   name: string; 
-  lpos:number; 
+  vpos:number; 
   hpos:number; 
-  hasIce:boolean; 
+  hasGem:boolean; 
+  hasFish:boolean;
   gender: string; 
   activity: number; 
   hunger:number; 
   temp:number; 
-  fat:number; 
+  shape:number; 
   age:number; 
   genderName: string;  
-  loving: number;
-  fishTime : number;
-  fishDirection:number; 
-  digTime : number;
+  activityDirection:number; 
+  activityText : string;
   digDirection:number; 
-  fillTime: number;
-  fillDirection:number; 
-  strategyShort: string; 
-  moveDirection:number; 
-  eating: number;
-  knownWorld: string; 
+  goal: number;
   vision: number;
   targetDirections: number;
-  targetLPos: number;
+  targetVPos: number;
   targetHPos: number;
   path: string; 
-  illuminated: boolean;
+  inLove: boolean;
 }
 
 export interface GarbageData {

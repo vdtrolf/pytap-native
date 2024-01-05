@@ -77,7 +77,7 @@ export default function Game(): JSX.Element {
 
   const handleCreateButton = () => { // size : number,difficulty :number) => {
 
-    let size : number = 9;
+    let size : number = 6;
     let difficulty : number = 2;
     console.log("received values " + size + " " + difficulty) 
 
@@ -297,12 +297,24 @@ const handleTileClick = (vpos:number,hpos:number) => {
     
 //   } 
 
-//   const handlePenguinClick = (key) => {
-//     console.log("PENGUIN CLICK ON " + key)
-//     setSelectedKey(key);
-//     setIlluminatedKey(key);
+const handlePenguinClick = (key : number) => {
+     console.log("PENGUIN CLICK ON " + key)
+     setSelectedKey(key);
+     setIlluminatedKey(key);
+}
 
-//   }
+const handleFishClick = (key : number) => {
+  console.log("Fish CLICK ON " + key)
+}
+
+const handleGemClick = (key : number) => {
+  console.log("Gem CLICK ON " + key)
+}
+
+const handleGarbageClick = (key : number) => {
+  console.log("Garbage CLICK ON " + key)
+}
+
 
 //   const handlePenguinEnter = (id) => {
 //     setIlluminatedKey(id);
@@ -384,7 +396,7 @@ const handleTileClick = (vpos:number,hpos:number) => {
 //     </div>
 //   );
 
-var screenwidth = screenDimensions.width;
+var screenwidth = screenDimensions.width - 8 ;
 
   if (screenwidth % boardSize < 2) {
     screenwidth =  screenDimensions.width -4;
@@ -427,18 +439,22 @@ var screenwidth = screenDimensions.width;
                 runningState = {runningState}
                 island = {island} 
                 handleTileClick ={handleTileClick} 
+                handlePenguinClick = {handlePenguinClick}
+                handleFishClick = {handleFishClick}
+                handleGemClick = {handleGemClick}
+                handleGarbageClick = {handleGarbageClick}
                 illuminatedKey = {illuminatedKey} 
                 showBalloons = {showBalloons}
                 squareSize = {squareSize}
                 areaSize = {areaSize - margins} />
             </View> 
         </ImageBackground> 
-          <View style={[{ width: screenSize, height : footerHeight, borderWidth : margins, padding : 4 }, styles.footerbounds]}>
+           <View style={[{ width: screenSize, height : footerHeight, borderWidth : margins, padding : 4 }, styles.footerbounds]}>
             <FooterArea 
                 runningState = {runningState}
                 island = {island}
                 unitSize = {unitSize}  />
-          </View>
+           </View> 
       </SafeAreaView>
   );
 
@@ -514,7 +530,7 @@ const extractIslandData = (islandData :any) : any => {
                     goal:penguin.goal,
                     vision: 2,
                     targetDirections: penguin.activityTarget,
-                    targetvpos: 0, 
+                    targetVpos: 0, 
                     targetHPos: 0, 
                     path:"",
                     inLove:penguin.inLove})

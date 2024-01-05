@@ -1,6 +1,6 @@
-import { StyleSheet, Image } from "react-native";
+import { StyleSheet, Image, Pressable, Alert } from "react-native";
 import { PenguinData } from "../types/types";
-import React, {useState,useEffect,Fragment} from "react";
+import React, {useState,useEffect} from "react";
 import Mover from "./Mover";
 
 const penguinImages = {
@@ -78,10 +78,11 @@ export interface Ipenguin {
 interface PenguinProps {
     penguinObj: PenguinData;
     squareSize : number;
+    handlePenguinClick : any;
 }
 
 
-const Penguin = ({penguinObj, squareSize}: PenguinProps)  => {
+const Penguin = ({penguinObj, squareSize, handlePenguinClick}: PenguinProps)  => {
 
     const [penguin,setPenguin] = useState<Ipenguin>({key:0, alive:true, leftFrom:0, leftTo:0,topTo:0,topFrom:0,img:penguinImages.PENG_M }); 
     
@@ -104,10 +105,10 @@ const Penguin = ({penguinObj, squareSize}: PenguinProps)  => {
         var image = penguinImages.PENG_LOVING;
         if (penguinObj.activity === 0) {
           
-          if (penguinObj.moveDirection) {
+          if (penguinObj.activityDirection) {
             
-            image = penguinObj.gender ==="m"? moving_m[penguinObj.moveDirection]: moving_f[penguinObj.moveDirection];
-            if (penguinObj.gender ==="y") image = moving_y[penguinObj.moveDirection];
+            image = penguinObj.gender ==="m"? moving_m[penguinObj.activityDirection]: moving_f[penguinObj.activityDirection];
+            if (penguinObj.gender ==="y") image = moving_y[penguinObj.activityDirection];
           } else {
             image = penguinObj.gender ==="m"? penguinImages.PENG_M : penguinImages.PENG_F;
             if (penguinObj.gender ==="y") image =  penguinImages.PENG_Y;
@@ -116,27 +117,36 @@ const Penguin = ({penguinObj, squareSize}: PenguinProps)  => {
           image = penguinObj.gender ==="m"? penguinImages.PENG_M_EATING: penguinImages.PENG_F_EATING;
           if (penguinObj.gender ==="y") image = penguinImages.PENG_Y_EATING;
         } else if (penguinObj.activity === 2) {
-          image = penguinObj.gender ==="m"? fishing_m[penguinObj.fishDirection]: fishing_f[penguinObj.fishDirection];
-          if (penguinObj.gender ==="y") image = fishing_y[penguinObj.fishDirection];
+          image = penguinObj.gender ==="m"? fishing_m[penguinObj.activityDirection]: fishing_f[penguinObj.activityDirection];
+          if (penguinObj.gender ==="y") image = fishing_y[penguinObj.activityDirection];
         } else if (penguinObj.activity === 4) {
           image = penguinObj.gender ==="f"? diging_f[penguinObj.digDirection]: diging_m[penguinObj.digDirection];
         } else if (penguinObj.activity === 5) {
-          image = penguinObj.gender ==="f"? filling_f[penguinObj.fillDirection]: filling_m[penguinObj.fillDirection];
+          image = penguinObj.gender ==="f"? filling_f[penguinObj.activityDirection]: filling_m[penguinObj.activityDirection];
         }
         
-        setPenguin({key: penguinObj.key, alive:penguinObj.alive, img:image,leftFrom:penguin.leftTo,leftTo:penguinObj.lpos*squareSize, topFrom:penguin.topTo, topTo:penguinObj.hpos*squareSize,});
+        setPenguin({key: penguinObj.key, alive:penguinObj.alive, img:image,leftFrom:penguin.leftTo,leftTo:penguinObj.hpos*squareSize, topFrom:penguin.topTo, topTo:penguinObj.vpos*squareSize,});
     },[penguinObj])    
    
+    const handleClick = (key:number) => {
+      handlePenguinClick(key)
+    }
+
+
     // if (penguin.alive) {
       if ((penguin.leftFrom !==  penguin.leftTo || penguin.topFrom !==  penguin.topTo) && (penguin.leftFrom !==0 || penguin.topFrom !== 0)) {
         return (          
           <Mover duration={1000} leftFrom={penguin.leftFrom} leftTo={penguin.leftTo}  topFrom={penguin.topFrom} topTo={penguin.topTo}>
-              <Image key={penguin.key+7000000000} source={penguin.img} style={[{ width: squareSize, height: squareSize, }, styles.penguin]} /> 
+              <Pressable style={{zIndex : 51}} onPress={() => handleClick(penguin.key)} >
+                <Image key={penguin.key+7000000000} source={penguin.img} style={[{ width: squareSize, height: squareSize, }, styles.penguin]} /> 
+              </Pressable>
           </Mover>
         )
       } else {
         return (
-          <Image key={penguin.key+7000000000} source={penguin.img} style={[{ top: penguin.topTo, left: penguin.leftTo, width: squareSize, height: squareSize, }, styles.penguin]} ></Image> 
+          <Pressable style={{zIndex : 51}} onPress={() => handleClick(penguin.key)} > 
+            <Image key={penguin.key+7000000000} source={penguin.img} style={[{ top: penguin.topTo, left: penguin.leftTo, width: squareSize, height: squareSize, }, styles.penguin]} ></Image> 
+          </Pressable>
             );
         }
 
